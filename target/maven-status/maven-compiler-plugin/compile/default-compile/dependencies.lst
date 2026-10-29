@@ -1,8 +1,0 @@
-classpath:/Users/poojitha/.m2/repository/org/openjfx/javafx-controls/21.0.2/javafx-controls-21.0.2.jar	306:1705439751000
-classpath:/Users/poojitha/.m2/repository/org/openjfx/javafx-controls/21.0.2/javafx-controls-21.0.2-mac-aarch64.jar	2585156:1705439756000
-classpath:/Users/poojitha/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2.jar	306:1705439767000
-classpath:/Users/poojitha/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2-mac-aarch64.jar	4800844:1705439771000
-classpath:/Users/poojitha/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2.jar	302:1705439743000
-classpath:/Users/poojitha/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2-mac-aarch64.jar	753976:1705439744000
-classpath:/Users/poojitha/.m2/repository/com/mysql/mysql-connector-j/8.3.0/mysql-connector-j-8.3.0.jar	2495536:1705352827000
-classpath:/Users/poojitha/.m2/repository/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar	1875070:1700088488000

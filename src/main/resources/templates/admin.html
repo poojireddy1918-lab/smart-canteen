@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <h2>Admin Dashboard</h2>
+            <a class="button secondary" href="/logout">Logout</a>
+        </div>
+
+        <div th:if="${success}" class="alert success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert error" th:text="${error}"></div>
+
+        <div class="card">
+            <div class="inline-actions">
+                <h3>Token Queue</h3>
+                <form method="post" action="/admin/serve-next">
+                    <button type="submit">Serve Next Token</button>
+                </form>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Customer</th>
+                        <th>Order ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(queue)}">
+                        <td colspan="3">No waiting tokens.</td>
+                    </tr>
+                    <tr th:each="token : ${queue}">
+                        <td th:text="${'#' + token.tokenNumber}"></td>
+                        <td th:text="${token.customerName}"></td>
+                        <td th:text="${token.orderId}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="two-column">
+            <div class="card">
+                <h3>Manage Menu</h3>
+                <form method="post" action="/admin/menu/add" class="inline-form">
+                    <input type="text" name="itemName" placeholder="Item name" required>
+                    <input type="number" step="0.01" min="0.01" name="itemPrice" placeholder="Price" required>
+                    <button type="submit">Add Item</button>
+                </form>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Update</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${menuItems}">
+                            <td th:text="${item.foodId}"></td>
+                            <td th:text="${item.name}"></td>
+                            <td th:text="${'Rs. ' + #numbers.formatDecimal(item.price, 1, 2)}"></td>
+                            <td>
+                                <form method="post" action="/admin/menu/update" class="inline-form">
+                                    <input type="hidden" name="foodId" th:value="${item.foodId}">
+                                    <input type="number" step="0.01" min="0.01" name="itemPrice" required>
+                                    <button type="submit">Update</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="post" action="/admin/menu/remove">
+                                    <input type="hidden" name="foodId" th:value="${item.foodId}">
+                                    <button type="submit" class="danger">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>Orders</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(orders)}">
+                            <td colspan="6">No orders found.</td>
+                        </tr>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.orderId}"></td>
+                            <td th:text="${order.customerName}"></td>
+                            <td th:text="${order.items}"></td>
+                            <td th:text="${'Rs. ' + #numbers.formatDecimal(order.totalAmount, 1, 2)}"></td>
+                            <td th:text="${order.status}"></td>
+                            <td>
+                                <div class="order-actions">
+                                    <form method="post" th:action="@{'/admin/orders/' + ${order.orderId} + '/complete'}">
+                                        <button type="submit">Complete</button>
+                                    </form>
+                                    <form method="post" th:action="@{'/admin/orders/' + ${order.orderId} + '/deliver'}">
+                                        <button type="submit">Deliver</button>
+                                    </form>
+                                    <form method="post" th:action="@{'/admin/orders/' + ${order.orderId} + '/cancel'}">
+                                        <button type="submit" class="danger">Cancel</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <h2>Hello, <span th:text="${user.name}"></span></h2>
+            <a class="button secondary" href="/logout">Logout</a>
+        </div>
+
+        <div th:if="${success}" class="alert success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert error" th:text="${error}"></div>
+
+        <div class="two-column">
+            <div class="card">
+                <h3>Food Menu</h3>
+                <form method="post" action="/student/order">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${menuItems}">
+                                <input type="hidden" name="foodId" th:value="${item.foodId}">
+                                <td th:text="${item.name}"></td>
+                                <td th:text="${'Rs. ' + #numbers.formatDecimal(item.price, 1, 2)}"></td>
+                                <td><input type="number" name="quantity" min="0" value="0" style="width: 70px"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="submit">Place Order & Get Token</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Order History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(orderHistory)}">
+                            <td colspan="4">No orders yet.</td>
+                        </tr>
+                        <tr th:each="order : ${orderHistory}">
+                            <td th:text="${order.orderId}"></td>
+                            <td th:text="${order.items}"></td>
+                            <td th:text="${'Rs. ' + #numbers.formatDecimal(order.totalAmount, 1, 2)}"></td>
+                            <td th:text="${order.status}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
