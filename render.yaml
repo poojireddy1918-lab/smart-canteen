@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: smart-canteen
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: CANTEEN_DB_URL
+        sync: false
+      - key: CANTEEN_DB_USER
+        sync: false
+      - key: CANTEEN_DB_PASS
+        sync: false
